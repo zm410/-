@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.smbms.dao.bill.BillMapper" >
+    <resultMap type="Bill" id="ProvideBill">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="billCode" property="billCode" jdbcType="VARCHAR" />
+        <result column="productName" property="productName" jdbcType="VARCHAR" />
+        <result column="productDesc" property="productDesc" jdbcType="VARCHAR" />
+        <result column="productUnit" property="productUnit" jdbcType="VARCHAR" />
+        <result column="productCount" property="productCount" jdbcType="DECIMAL" />
+        <result column="totalPrice" property="totalPrice" jdbcType="DECIMAL" />
+        <result column="isPayment" property="isPayment" jdbcType="INTEGER" />
+        <result column="createdBy" property="createdBy" jdbcType="BIGINT" />
+        <result column="creationDate" property="creationDate" jdbcType="TIMESTAMP" />
+        <result column="modifyBy" property="modifyBy" jdbcType="BIGINT" />
+        <result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
+        <result column="providerId" property="providerId" jdbcType="BIGINT" />
+        <association property="provider" javaType="Provider" >
+            <id column="id" property="id" jdbcType="BIGINT" />
+            <result column="proCode" property="proCode" jdbcType="VARCHAR" />
+            <result column="proName" property="proName" jdbcType="VARCHAR" />
+            <result column="proDesc" property="proDesc" jdbcType="VARCHAR" />
+            <result column="proContact" property="proContact" jdbcType="VARCHAR" />
+            <result column="proPhone" property="proPhone" jdbcType="VARCHAR" />
+            <result column="proAddress" property="proAddress" jdbcType="VARCHAR" />
+            <result column="proFax" property="proFax" jdbcType="VARCHAR" />
+            <result column="createdBy" property="createdBy" jdbcType="BIGINT" />
+            <result column="creationDate" property="creationDate" jdbcType="TIMESTAMP" />
+            <result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP" />
+            <result column="modifyBy" property="modifyBy" jdbcType="BIGINT" />
+        </association>
+
+    </resultMap>
+    <!--订单查询-->
+    <select id="selectBill" resultMap="ProvideBill">
+        select bill.*, proname from smbms_bill bill left join smbms_provider pro on bill.providerid=pro.id 
+          <where>
+              <if test="id!=null and id!=''">
+                  and bill.id=#{id}
+              </if>
+
+              <if test="billCode!=null and billCode!=''">
+                  and billCode=#{billCode}
+              </if>
+
+              <if test="productName!=null and productName!=''">
+                  and productName like "%"#{productName}"%"
+              </if>
+
+              <if test="productDesc!=null and productDesc!=''">
+                  and productDesc=#{productDesc}
+              </if>
+
+              <if test="productUnit!=null and billCode!=''">
+                  and productUnit=#{productUnit}
+              </if>
+
+              <if test="productCount!=null and productCount!=''">
+                  and productCount=#{productCount}
+              </if>
+
+              <if test="totalPrice!=null and totalPrice!=''">
+                  and totalPrice=#{totalPrice}
+              </if>
+
+              <if test="providerId!=null and providerId!=''">
+                  and providerId=#{providerId}
+              </if>
+
+              <if test="isPayment!=null and isPayment!=''">
+                  and isPayment=#{isPayment}
+              </if>
+
+              <if test="createdBy!=null and createdBy!=''">
+                  and createdBy=#{createdBy}
+              </if>
+          </where>
+    </select>
+    </mapper>
